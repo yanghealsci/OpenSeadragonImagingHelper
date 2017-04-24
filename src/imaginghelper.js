@@ -1,4 +1,8 @@
-﻿/* 
+//! OpenSeadragonImagingHelper 1.2.0
+//! Build date: 2015-01-08
+//! Git commit: v1.2.0-0-g6ac5f20
+//! https://github.com/msalsbery/OpenSeadragonImagingHelper
+/*
  * Copyright (c) 2013-2014 Mark Salsbery
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -22,14 +26,14 @@
 
 /**
  * @file
- * @version  <%= pkg.name %> <%= pkg.version %>
+ * @version  OpenSeadragonImagingHelper 1.2.0
  * @author Mark Salsbery <msalsbery@hotmail.com>
  *
  */
 
 /**
  * @module openseadragon-imaginghelper
- * @version  <%= pkg.name %> <%= pkg.version %>
+ * @version  OpenSeadragonImagingHelper 1.2.0
  *
  */
 
@@ -85,8 +89,8 @@
 
         // Call base class constructor
         OSD.EventSource.call(this);
-        
-        // Add this object to the Viewer        
+
+        // Add this object to the Viewer
         this._viewer.imagingHelper = this;
 
         /**
@@ -153,10 +157,10 @@
      */
     /* jshint ignore:start */
     $.ImagingHelper.version = {
-        versionStr: '<%= imaginghelperVersion.versionStr %>',
-        major: <%= imaginghelperVersion.major %>,
-        minor: <%= imaginghelperVersion.minor %>,
-        revision: <%= imaginghelperVersion.revision %>
+        versionStr: '1.2.0',
+        major: 1,
+        minor: 2,
+        revision: 0
     };
     /* jshint ignore:end */
 
@@ -172,9 +176,9 @@
     /** @lends OpenSeadragonImaging.ImagingHelper.prototype */
     {
         /*
-         * 
+         *
          * Raises the {@link OpenSeadragonImaging.ImagingHelper.image-view-changed} event
-         * 
+         *
          * @private
          * @method
          *
@@ -203,9 +207,9 @@
         },
 
         /*
-         * 
+         *
          * Called whenever the OpenSeadragon viewer zoom/pan changes
-         * 
+         *
          * @private
          * @method
          * @fires OpenSeadragonImaging.ImagingHelper.image-view-changed
@@ -214,9 +218,11 @@
         _trackZoomPan: function () {
             var boundsRect = this._viewer.viewport.getBounds(true);
             this._viewportOrigin.x = boundsRect.x;
-            this._viewportOrigin.y = boundsRect.y * this.imgAspectRatio;
+            //this._viewportOrigin.y = boundsRect.y * this.imgAspectRatio;
+            this._viewportOrigin.y = boundsRect.y;
             this._viewportWidth = boundsRect.width;
-            this._viewportHeight = boundsRect.height * this.imgAspectRatio;
+            //this._viewportHeight = boundsRect.height * this.imgAspectRatio;
+            this._viewportHeight = boundsRect.height;
             this._viewportCenter.x = this._viewportOrigin.x + (this._viewportWidth / 2.0);
             this._viewportCenter.y = this._viewportOrigin.y + (this._viewportHeight / 2.0);
             this._zoomFactor = this.getViewerContainerSize().x / (this._viewportWidth * this.imgWidth);
@@ -243,7 +249,7 @@
 
         /**
          * Helper method for users of the OpenSeadragon.Viewer's autoResize = false option.
-         * Call this whenever the viewer is resized, and the image will stay displayed at the same scale 
+         * Call this whenever the viewer is resized, and the image will stay displayed at the same scale
          * and same center point.
          *
          * @method
@@ -688,9 +694,9 @@
      *
      **/
     function onOpen() {
-        this._haveImage = true;
-        this.imgWidth = this._viewer.viewport.contentSize.x;
-        this.imgHeight = this._viewer.viewport.contentSize.y;
+        this._haveImage = true;    
+        this.imgWidth = this._viewer.world.getItemAt(0).source.dimensions.x;
+        this.imgHeight = this._viewer.world.getItemAt(0).source.dimensions.y;
         this.imgAspectRatio = this.imgWidth / this.imgHeight;
         this._trackZoomPan();
     }
